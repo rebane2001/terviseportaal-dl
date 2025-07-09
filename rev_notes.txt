@@ -1,0 +1,168 @@
+const Pe = () => <h.Routes><h.Route path={d.HealthHistoryRoutes.ROOT} element={<Y />} /><h.Route path={d.HealthHistoryRoutes.ANALYSIS_DETAIL} element={<_Component1 />} /><h.Route path={d.HealthHistoryRoutes.DEVELOPMENT_DETAIL} element={<_Component10 />} /><h.Route path={d.HealthHistoryRoutes.GROWTH_DETAIL} element={<Te />} /><h.Route path={d.HealthHistoryRoutes.AMBULANCE_CARD_DETAIL} element={<_Component11 />} /><h.Route path={d.HealthHistoryRoutes.EXAMINATION_NOTICE_DETAIL} element={<_Component12 />} /><h.Route path={d.HealthHistoryRoutes.COUNCELLING_DETAIL} element={<_Component13 />} /><h.Route path={d.HealthHistoryRoutes.OPERATION_DETAIL} element={<Ve />} /><h.Route path={d.HealthHistoryRoutes.EXTENDED_EXAMINATION_DETAIL} element={<_Component14 />} /><h.Route path={d.HealthHistoryRoutes.EXAMINATION_REPORTS_DETAIL} element={<_Component15 />} /><h.Route path={d.HealthHistoryRoutes.IMMUNISATION_DETAIL} element={<Ee />} /><h.Route path={d.HealthHistoryRoutes.HOSPITAL_RECEPTION_DETAIL} element={<_e />} /><h.Route path={d.HealthHistoryRoutes.APPOINTMENT_DETAIL} element={<Be />} /><h.Route path="*" element={<c.NotFoundRedirect />} /></h.Routes>;
+
+<h.Route path={d.HealthHistoryRoutes.ANALYSIS_DETAIL} element={<_Component1 />} />
+                      type: "EXAMINATION_REPORT"
+<h.Route path={d.HealthHistoryRoutes.DEVELOPMENT_DETAIL} element={<_Component10 />} />
+                      type: "NOTICE"
+<h.Route path={d.HealthHistoryRoutes.GROWTH_DETAIL} element={<Te />} />
+                      type: "NOTICE"
+<h.Route path={d.HealthHistoryRoutes.AMBULANCE_CARD_DETAIL} element={<_Component11 />} />
+                      type: "AMBULANCE_CARD"
+<h.Route path={d.HealthHistoryRoutes.EXAMINATION_NOTICE_DETAIL} element={<_Component12 />} />
+                      type: "NOTICE"
+<h.Route path={d.HealthHistoryRoutes.COUNCELLING_DETAIL} element={<_Component13 />} />
+                      type: "NOTICE"
+<h.Route path={d.HealthHistoryRoutes.OPERATION_DETAIL} element={<Ve />} />
+                      type: "EPICRISIS"
+<h.Route path={d.HealthHistoryRoutes.EXTENDED_EXAMINATION_DETAIL} element={<_Component14 />} />
+                      type: "EXAMINATION_REPORT"
+<h.Route path={d.HealthHistoryRoutes.EXAMINATION_REPORTS_DETAIL} element={<_Component15 />} />
+                      type: "EXAMINATION_REPORT"
+<h.Route path={d.HealthHistoryRoutes.IMMUNISATION_DETAIL} element={<Ee />} />
+                      type: "IMMUNIZATION"
+<h.Route path={d.HealthHistoryRoutes.HOSPITAL_RECEPTION_DETAIL} element={<_e />} />
+      const n = i.get("docType") ?? "";
+      if ([m.STATIONARY_CODE, m.DAYCARE_CODE, m.NURSING_CODE].includes(n)) {
+                            docTypeCode: o.get("docType") ?? "",
+                            type: "EPICRISIS"
+      } else {
+        return <h.Navigate to={t} replace={true} />;
+      }
+<h.Route path={d.HealthHistoryRoutes.APPOINTMENT_DETAIL} element={<Be />} />
+      const n = i.get("docType") ?? "";
+      if (n === m.BIRTH_CODE) {
+                      docTypeCode: a.get("docType") ?? "",
+                      type: "EPICRISIS"
+      } else if (n === m.AMBULATORY_CODE) {
+                            docTypeCode: o.get("docType") ?? "",
+                            type: "EPICRISIS"
+      } else {
+        return <h.Navigate to={t} replace={true} />;
+      }
+
+
+m.BIRTH_CODE == "4"
+m.AMBULATORY_CODE == "2"
+
+E.ROOT = "/",
+E.ANALYSIS_DETAIL = "/analuus/*",
+E.DEVELOPMENT_DETAIL = "/arengu-teatis/*",
+E.HOSPITAL_RECEPTION_DETAIL = "/haiglaravi/*",
+E.GROWTH_DETAIL = "/kasvamise-teatis/*",
+E.AMBULANCE_CARD_DETAIL = "/kiirabi/*",
+E.EXAMINATION_NOTICE_DETAIL = "/labivaatus/*",
+E.COUNCELLING_DETAIL = "/noustamine/*",
+E.OPERATION_DETAIL = "/operatsioon/*",
+E.EXTENDED_EXAMINATION_DETAIL = "/saatekirja-vastus/*",
+E.EXAMINATION_REPORTS_DETAIL = "/uuringud/*",
+E.IMMUNISATION_DETAIL = "/vaktsineerimine/*",
+E.APPOINTMENT_DETAIL = "/vastuvott/*",
+
+"/analuus/": "EXAMINATION_REPORT"
+"/arengu-teatis/": "NOTICE"
+"/haiglaravi/": "EPICRISIS" + docType
+"/kasvamise-teatis/": "NOTICE"
+"/kiirabi/": "AMBULANCE_CARD" + docType
+"/labivaatus/": "NOTICE"
+"/noustamine/": "NOTICE"
+"/operatsioon/": "EPICRISIS"
+"/saatekirja-vastus/": "EXAMINATION_REPORT"
+"/uuringud/": "EXAMINATION_REPORT"
+"/vaktsineerimine/": "IMMUNIZATION" + docType
+"/vastuvott/": "EPICRISIS" + docType
+
+JSON.parse('{"404":"Lehte ei leitud","...ids":"Detailvaade","alusta":"Loo tervisedeklaratsioon","analuus":"Anal\xfc\xfcs","arengu-teatis":"Arengu teatis","broneeringud":"Broneering","broneeringute-ja-saatekirjade-ajalugu":"Broneeringute ja saatekirjade ajalugu","covidCertificateId":"Digitaalne COVIDi t\xf5end","dashboard":"Minu t\xf6\xf6laud","deklaratsioonid":"Tervisedeklaratsioonid","dentistVisitId":"Hambaravi","digiregistratuur":"Digiregistratuur","dr-appointment":"Vastuv\xf5tu muutmine","dr-non-referral":"Ilma saatekirjata vastuv\xf5tud","dr-referral":"Saatekirjaga vastuv\xf5tud","farmakogeneetika":"Farmakogeneetika","haiglaravi":"Haiglaravi","hammaste-tervis":"Hammaste tervis","healthCertificateId":"Terviset\xf5end","healthDeclarationId":"Tervisedeklaratsioon","id":"Detailvaade","kasvamise-teatis":"Kasvamise teatis","kiirabi":"Kiirabi","kontaktid-ja-kkk":"Kontaktid ja KKK","kupsised":"K\xfcpsised","labivaatus":"L\xe4bivaatus","ligipaasetavus":"Ligip\xe4\xe4setavus","liidestunud-tervishoiuasutused":"Liidestunud tervishoiuasutused","logiraamat":"Logiraamat","loo-toend":"Loo COVIDi t\xf5end","minu-seaded":"Minu seaded","noustamine":"N\xf5ustamine","operatsioon":"Operatsioon","organite-loovutamise-tahteavaldus":"Organite loovutamise tahteavaldus","perearsti-valimine":"Perearsti valimine","permed-genoomivarieeruvuse-andmebaas":"PerMed - Genoomivarieeruvuse andmebaas","personaalmeditsiin":"Personaalmeditsiin","piiriuleste-andmete-haldamine":"Piiri\xfcleste andmete haldamine","portaali-teenused":"Portaali teenused","postkast":"Riiklikud teated","prescriptionId":"Retsept","raviarved":"Raviarved","referralId":"Saatekiri","resultId":"Tulemus","retseptid":"Retseptid ja meditsiiniseadmed","rinnavahi-polugeense-riskiskoori-arvutus":"Rinnav\xe4hi pol\xfcgeense riskiskoori arvutus","root":"Avaleht","saatekirjad":"Saatekiri","surnukeha-uleandmise-tahteavaldus":"Surnukeha \xfcleandmise tahteavaldus","tervise-ajalugu":"Minu tervise ajalugu","terviseennetuse-info":"Terviseennetuse info","tervisetoendid":"Terviset\xf5endid ja -deklaratsioonid","toendid":"Terviset\xf5endid","toovoime":"T\xf6\xf6v\xf5ime","toovoimetusleht":"T\xf5\xf5v\xf5imetusleht","treatmentCostId":"Raviarve","uudised-ja-uuringud":"Uudised ja uuringud","uuringud":"Uuring","vaktsiinikahju-huvitise-taotlemine":"Vaktsiinikahju h\xfcvitise taotlemine","vaktsineerimine":"Vaktsineerimine","vastuvott":"Vastuv\xf5tt","vastuvotud":"Vastuv\xf5tud ja saatekirjad","vereulekande-tahteavaldus":"Vere\xfclekande tahteavaldus"}')
+
+     switch (l) {
+        case "AMBULANCE":
+          return ge;
+        case "ANALYSIS":
+          return he;
+        case "DIAGNOSTIC_REPORTS":
+          if (a === Se && i === "TIS") {
+            return Re;
+          }
+          if (a === Se) {
+            return Le;
+          }
+          break;
+        case "IMMUNIZATION":
+          return Pe;
+        case "RECEPTION":
+          if (a === Te) {
+            return Ne;
+          }
+          if (a === Ee) {
+            return _e;
+          }
+          if (a === pe) {
+            return Oe;
+          }
+          if (a === Me) {
+            return Ce;
+          }
+          if ([ce, me].includes(a)) {
+            return ye;
+          }
+          break;
+        case "OPERATION":
+          if ([fe, Ae, ce].includes(a)) {
+            return ke;
+          }
+          break;
+        case "HOSPITAL_TREATMENT":
+          if ([fe, Ae, Ie].includes(a)) {
+            return De;
+          }
+    }
+
+      const {
+        code: {
+          code: a
+        },
+        theme: l,
+        source: i
+      } = e;
+
+     switch (theme) {
+        case "AMBULANCE":
+          return "kiirabi";
+        case "ANALYSIS":
+          return "analuus";
+        case "DIAGNOSTIC_REPORTS":
+          if (code === "64" && source === "TIS") {
+            return "saatekirja-vastus";
+          }
+          if (code === "64") {
+            return "uuringud";
+          }
+          break;
+        case "IMMUNIZATION":
+          return "vaktsineerimine";
+        case "RECEPTION":
+          if (code === "15") {
+            return "noustamine";
+          }
+          if (code === "14") {
+            return "arengu-teatis";
+          }
+          if (code === "13") {
+            return "labivaatus";
+          }
+          if (code === "12") {
+            return "kasvamise-teatis";
+          }
+          if (["2", "4"].includes(code)) {
+            return "vastuvott";
+          }
+          break;
+        case "OPERATION":
+          if (["1", "3", "2"].includes(code)) {
+            return "operatsioon";
+          }
+          break;
+        case "HOSPITAL_TREATMENT":
+          if (["1", "3", "94"].includes(code)) {
+            return "haiglaravi";
+          }
+    }

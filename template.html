@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <script type="text/javascript" src="data.js"></script>
+  <style>
+    html, body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #F0F0F2;
+      color: #4B4E62;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      background: #FFF;
+      color: #005AA3;
+      padding: 10px;
+      box-shadow: 0 0 4px #0005;
+    }
+    #profile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      #ik { color: #000; font-size: 0.75em; }
+      #name { font-size: 1.25em; font-weight: 600; }
+    }
+    footer {
+      text-align: center;
+      background: #34394C;
+      color: #FFF;
+      padding: 16px;
+    }
+    .logo {
+      color: inherit;
+      font-weight: 600;
+      font-size: 2em;
+      text-decoration: none;
+      margin-right: auto;
+    }
+    main {
+      display: flex;
+    }
+    health-entries, entry-preview {
+      display: block;
+      margin: 32px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #F9F9F9;
+      border: 1px solid #E1E2E5;
+      width: 100%;
+      box-shadow: 2px 2px 4px #00000011;
+    }
+    entry-preview {
+      display: none;
+      position: sticky;
+      top: 32px;
+      height: calc(100dvh - 120px);
+      margin-left: 0;
+      iframe {
+        width: calc(100% + 111px);
+        height: 100%;
+        zoom: 0.75;
+        translate: -111px 0;
+        border: none;
+      }
+    }
+    #closeBtn {
+      position: absolute;
+      z-index: 1;
+      right: 24px;
+      top: 12px;
+      background: #FFF;
+      border-radius: 6px;
+      color: #0094BB;
+      font-weight: 600;
+      padding: 14px 8px 12px;
+      border: 1px solid;
+      line-height: 0;
+      user-select: none;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 1px 1px 2px #0002;
+    }
+    a {
+      color: #005AA3;
+    }
+  </style>
+</head>
+<body>
+<header><nav><a href="https://github.com/rebane2001/terviseportaal-dl" class="logo">terviseportaal-dl</a><div id="profile"><span id="ik"></span><span id="name"></span></div><!--<div id="lang">EST</div>--></nav></header>
+<main>
+  <health-entries></health-entries>
+  <entry-preview><button id="closeBtn" aria-label="Close">X</button><iframe id="previewFrame"></iframe></entry-preview>
+</main>
+<footer>
+This is an unofficial project, not affiliated with Terviseportaal.
+</footer>
+<template id="health-entry-template">
+  <style>
+    :host {
+      display: block;
+    }
+    :host(:not(:last-child)) {
+      border-bottom: 1px solid #E1E2E5;
+    }
+    .main {
+      display: flex;
+    }
+    .container {
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      &:has(.date) {
+        border-right: 1px solid #FF8000;
+        align-items: flex-end;
+        width: 90px;
+        flex-shrink: 0;
+      }
+      &:has(.desc) {
+        cursor: pointer;
+        flex-grow: 1;
+        &:hover {
+          background: #EEE;
+        }
+      }
+    }
+    .date, .title {
+      font-weight: 600;
+      font-size: 1em;
+    }
+    p, h3 {
+      margin: 0;
+    }
+    a {
+      color: #005AA3;
+      width: fit-content;
+    }
+  </style>
+  <div class="main">
+    <div class="container">
+      <p class="date"></p>
+    </div>
+    <div class="container">
+      <h3 class="title"></h3>
+      <p class="desc"></p>
+      <a class="link">Ava haigusjuht</a>
+    </div>
+  </div>
+</template>
+<script>
+  function hidePreview() {
+    document.querySelector("entry-preview").style.display = "none";
+  }
+
+  function previewEntry(url) {
+    document.querySelector("entry-preview").style.display = "block";
+    document.querySelector("#previewFrame").src = url;
+  }
+
+  function getDateInt(entry) {
+    return parseInt(entry.effectiveTime.replace(/-/g,''));
+  }
+
+  function themeToBasepath(entry) {
+    source = entry["source"]
+    theme = entry["theme"]
+    code = entry["code"]?.["code"]
+
+    if (theme === "AMBULANCE") return "kiirabi";
+    if (theme === "ANALYSIS") return "analuus";
+    if (theme === "IMMUNIZATION") return "vaktsineerimine";
+    if (theme === "OPERATION" && ["1", "2", "3"].includes(code)) return "operatsioon";
+    if (theme === "HOSPITAL_TREATMENT" && ["1", "2", "94"].includes(code)) return "haiglaravi";
+    if (theme === "DIAGNOSTIC_REPORTS") {
+        if (code === "64") {
+            if (source === "TIS")
+                return "saatekirja-vastus";
+            return "uuringud";
+        }
+    }
+    if (theme === "RECEPTION") {
+        if (code === "15") return "noustamine";
+        if (code === "14") return "arengu-teatis";
+        if (code === "13") return "labivaatus";
+        if (code === "12") return "kasvamise-teatis";
+        if (["2", "4"].includes(code)) return "vastuvott";
+    }
+  }
+
+  function themeToName(entry) {
+    return {
+      "analuus": "Analüüs",
+      "arengu-teatis": "Arengu teatis",
+      "haiglaravi": "Haiglaravi",
+      "kasvamise-teatis": "Kasvamise teatis",
+      "kiirabi": "Kiirabi",
+      "labivaatus": "Läbivaatus",
+      "noustamine": "Nõustamine",
+      "operatsioon": "Operatsioon",
+      "saatekirja-vastus": "Saatekirja vastus",
+      "uuringud": "Uuringud",
+      "vaktsineerimine": "Vaktsineerimine",
+      "vastuvott": "Vastuvõtt",
+    }[themeToBasepath(entry)];
+  }
+
+  async function processData() {
+    if (!window.healthData)
+      document.querySelector("health-entries").innerText = "Andmeid ei leitud.\nAndmete allalaadimiseks käivitage terviseportaal-dl.py skript ning avage tekkinud kaustas olev _index.html fail."
+    const currentUser = window.healthData.user;
+    const healthHistory = window.healthData.history;
+    document.querySelector("#ik").innerText = currentUser.idCode;
+    document.querySelector("#name").innerText = currentUser.name;
+    for (const entry of healthHistory.sort((a,b) => getDateInt(b)-getDateInt(a))) {
+      const el = document.createElement("health-entry");
+      el.dataset.title = `${themeToName(entry)}: ${entry?.organizationName}`;
+      el.dataset.date = entry.effectiveTime.split("-").reverse().join(".");
+      let description = entry.code.displayName;
+      if (entry.diseases.length)
+        desc = entry.diseases.map(e=>e.displayName).join(", ")
+      if (entry.diagnoses.length)
+        desc = entry.diagnoses.map(e=>e.detailedDiagnosis).join(", ")
+      if (entry.diagnosticReportResults.length)
+        desc = entry.diagnosticReportResults.map(e=>e.type).join(", ")
+      if (entry.analyses.length)
+        desc = entry.analyses.map(e=>`${e.material.displayName} (${e.indicators.map(x => x.label).join(", ")})`).join(", ")
+      el.dataset.desc = desc;
+      el.dataset.link = entry.downloadedUrl;
+      document.querySelector("health-entries").appendChild(el);
+    }
+  }
+
+  customElements.define(
+    "health-entry",
+    class extends HTMLElement {
+      constructor() {
+        super();
+        const template = document.getElementById(
+          "health-entry-template",
+        ).content;
+        const shadowRoot = this.attachShadow({ mode: "open" });
+        shadowRoot.appendChild(template.cloneNode(true));
+      }
+      connectedCallback() {
+        ["title", "date", "desc"].forEach(e => 
+          this.shadowRoot.querySelector(`.${e}`).innerText = this.getAttribute(`data-${e}`)
+        );
+        this.shadowRoot.querySelector(`.link`).href = this.getAttribute(`data-link`);
+        this.shadowRoot.querySelector(".container:has(.desc)").onclick = () => previewEntry(this.getAttribute(`data-link`));
+      }
+    },
+  );
+
+
+  window.onload = () => {
+    document.querySelector("#closeBtn").onclick = hidePreview;
+    processData();
+  }
+</script>
+</body>
+</html>
