@@ -15,6 +15,8 @@ Antud skriptiga saate terviseportaal.ee-st oma andmed alla laadida.
 4. The script will download your data and say when it's done.
 5. Once the download is complete, open the folder that was created, and from there open the `_index.html` file.
 
+---
+
 1. Installi python3 koos `requests` pakiga.
 2. Käivita skript (nt `python terviseportaal-dl.py`).
 3. Logi sisse terviseportaal.ee lehel ja leia oma `__Host-SESSION` küpsis, sisesta see skripti.
