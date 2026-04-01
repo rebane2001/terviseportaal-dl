@@ -59,8 +59,8 @@ def entry_to_url(entry):
     document_url += f"type={document_type}"
     return document_url
 
-def download_file(url, filename, cookies=[]):
-    with requests.get(url, cookies=cookies, stream=True) as r:
+def download_file(url, filename, headers={}, cookies=[]):
+    with requests.get(url, headers=headers, cookies=cookies, stream=True) as r:
         r.raw.decode_content = True
         with open(filename, 'wb') as f:
             shutil.copyfileobj(r.raw, f)
@@ -89,7 +89,8 @@ def main():
     os.mkdir(fn)
     with open(os.path.join(fn,"current_user.json"), "x") as f:
         f.write(r.text)
-    r = requests.get('https://minu.terviseportaal.ee/api/health-history', cookies=cookies)
+    headers = {"X-Upp-Personal-Code":current_user['idCode']}
+    r = requests.get('https://minu.terviseportaal.ee/api/health-history', headers=headers, cookies=cookies)
     with open(os.path.join(fn,"health_history.json"), "x") as f:
         f.write(r.text)
     health_history = r.json()
@@ -101,7 +102,7 @@ def main():
             filename = filename[:200]
         filename = re.sub(r"[^\w\-.]","",filename.replace(" ", "_")) + ".html"
         print(f"[{i+1}/{len(health_history["result"])}] {filename}")
-        download_file(entry_url, os.path.join(fn,filename), cookies=cookies)
+        download_file(entry_url, os.path.join(fn,filename), headers=headers, cookies=cookies)
         entry["downloadedUrl"] = filename
     with open(os.path.join(fn,"data.js"), "x") as f:
         f.write(f"window.healthData = {json.dumps({"user": current_user, "history": health_history["result"]})};")
